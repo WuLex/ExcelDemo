@@ -14,7 +14,7 @@ namespace ExcelProject.Models
         public Nullable<int> fLike { get; set; }
         public Nullable<bool> fLock { get; set; }
         public Nullable<bool> fReportcheck { get; set; }
-        public virtual tDiscussionClass tDiscussionClass { get; set; }
+        //public virtual tDiscussionClass tDiscussionClass { get; set; }
         public virtual tMember tMember { get; set; }
     }
 }

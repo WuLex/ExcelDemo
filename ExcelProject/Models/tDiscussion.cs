@@ -42,7 +42,7 @@ namespace ExcelProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tComment> tComments { get; set; }
 
-        public virtual tDiscussionClass tDiscussionClass { get; set; }
+        //public virtual tDiscussionClass tDiscussionClass { get; set; }
 
         public virtual tMember tMember { get; set; }
 

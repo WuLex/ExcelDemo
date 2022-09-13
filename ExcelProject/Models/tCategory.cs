@@ -5,7 +5,6 @@ namespace ExcelProject.Models
 
     public partial class tCategory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tCategory()
         {
             this.tProducts = new HashSet<tProduct>();
@@ -17,7 +16,6 @@ namespace ExcelProject.Models
 
         public string fDescription { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProduct> tProducts { get; set; }
     }
 }
