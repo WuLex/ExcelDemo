@@ -15,6 +15,7 @@ namespace ExcelProject.Controllers
         public ExcelController(NewPetContext dbContext)
         {
             _dbContext = dbContext;
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
         }
 
         //会员资料
