@@ -1,20 +1,46 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Index Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.6.7/dist/css/layui.css">
+    <style type="text/css">
+        /* 自定义样式 */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .layui-btn {
+            margin: 10px;
+        }
+        /* 响应式样式 */
+        @@media screen and (max-width: 768px) {
+            .layui-btn {
+                width: 100%;
+                margin: 5px 5px; /* 减小上下间距 */
+            }
+        }
+    </style>
+
 </head>
 <body>
-    <button id="exportButton" class="layui-btn">数据导出到 Excel</button>
-    <button id="exportToExcelLocalButton" class="layui-btn">直接导出Excel在服务器端</button>
-    <button id="exportToExcelButton" class="layui-btn">直接导出Excel</button>
-    <button id="exportToExcelLinkButton" class="layui-btn">window.location.href直接导出Excel</button>
-    
+     <div class="layui-container">
+        <div class="layui-row button-container">
+            <div class="layui-col-md6 layui-col-sm12">
+                <button id="exportButton" class="layui-btn">数据导出到 Excel</button>
+                 <button id="exportToExcelLocalButton" class="layui-btn">直接导出Excel在服务器端</button>
+            </div>
+            <div class="layui-col-md6 layui-col-sm12">
+                <button id="exportToExcelButton" class="layui-btn">直接导出Excel</button>
+                <button id="exportToExcelLinkButton" class="layui-btn">window.location.href直接导出Excel</button>
+            </div>
+        </div>
+    </div>
     <div id="resultDiv">
     </div>
     <div id="downloadLink" style="display:none;">
+        <span class="layui-breadcrumb">
             <a id="downloadLinkAnchor" href="#" download>下载Excel</a>
+        </span>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/layui@2.6.7/dist/layui.js"></script>
     <script>
