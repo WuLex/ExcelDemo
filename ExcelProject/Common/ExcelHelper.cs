@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using Microsoft.AspNetCore.Hosting;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Text.RegularExpressions;
 
@@ -87,6 +88,74 @@ namespace ExcelProject.Common
             return path;//返回文件路径
         }
 
+
+        public static string CreateExcelFromListEx<T>(List<T> dataList, string sheetName, List<ExcelHeader> headers,IWebHostEnvironment webHostEnvironment)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var package = new ExcelPackage();
+
+            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+
+            // 设置标题
+            for (int i = 0; i < headers.Count; i++)
+            {
+                var cell = worksheet.Cells[headers[i].Adress];
+                cell.Value = headers[i].Value;
+
+                // 如果合并区域不为空，进行单元格合并
+                if (!string.IsNullOrWhiteSpace(headers[i].MergeArea))
+                {
+                    worksheet.Cells[headers[i].MergeArea].Merge = true;
+                }
+                // 设置单元格样式
+                cell.Style.Font.Size = 12;
+                cell.Style.Font.Bold = true;
+                cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                // 如果指定了列宽度，设置列宽
+                if (headers[i].Width > 0)
+                {
+                    worksheet.Column(ColumnIndex(headers[i].Adress)).Width = headers[i].Width;
+                }
+            }
+
+            // 加载数据
+            worksheet.Cells[headers.Count + 1, 1].LoadFromCollection(dataList, true);
+
+            // 将包转换为字节数组
+            var excelBytes = package.GetAsByteArray();
+
+            //生成唯一的文件名
+            var fileName = $"tempExcel_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
+
+            //获取当前应用程序域的基本目录，通常是执行应用程序的可执行文件所在的目录
+            //var projectFolderPath = AppDomain.CurrentDomain.BaseDirectory;
+            //将 projectFolderPath 与子目录名 "DownloadFiles" 组合在一起，以创建一个新的目录路径，该目录路径用于存储 Excel 文件
+            //var downloadFolderPath = Path.Combine(projectFolderPath, "DownloadFiles");
+            //if (!Directory.Exists(downloadFolderPath))
+            //{
+            //    Directory.CreateDirectory(downloadFolderPath);
+            //}
+            //var filePath = Path.Combine(downloadFolderPath, fileName);
+
+
+            // 保存Excel字节数组到"wwwroot/DownloadFiles"目录
+            var wwwRootPath = webHostEnvironment.WebRootPath;
+            var downloadFolderPath = Path.Combine(wwwRootPath, "DownloadFiles");
+
+            //如果"DownloadFiles"目录不存在，创建它
+            if (!Directory.Exists(downloadFolderPath))
+            {
+                Directory.CreateDirectory(downloadFolderPath);
+            }
+            var filePath = Path.Combine(downloadFolderPath, fileName);
+            File.WriteAllBytes(filePath, excelBytes);
+
+            // 返回相对文件路径
+            return $"/DownloadFiles/{fileName}";
+        }
+      
         /// <summary>
         /// 根据单元格地址计算出单元格所在列的索引
         /// </summary>

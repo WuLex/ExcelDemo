@@ -153,7 +153,7 @@ namespace ExcelProject.Controllers
                     orderby mem.fPetCoin descending
                     select new
                     {
-                        会员暱称 = mem.fNickName,
+                        会员昵称 = mem.fNickName,
                         PetCoin数 = Convert.ToInt32(mem.fPetCoin)
                     };
 
@@ -584,4 +584,4 @@ namespace ExcelProject.Controllers
             }
         }
     }
-}
+} 

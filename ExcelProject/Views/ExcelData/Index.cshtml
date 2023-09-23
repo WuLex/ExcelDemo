@@ -1,5 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.6.7/dist/css/layui.css">
+</head>
+<body>
+    <button id="exportButton" class="layui-btn">数据导出到 Excel</button>
+    <button id="exportToExcelLocalButton" class="layui-btn">直接导出Excel在服务器端</button>
+    <button id="exportToExcelButton" class="layui-btn">直接导出Excel</button>
+    <button id="exportToExcelLinkButton" class="layui-btn">window.location.href直接导出Excel</button>
+    
+    <div id="resultDiv">
+    </div>
+    <div id="downloadLink" style="display:none;">
+            <a id="downloadLinkAnchor" href="#" download>下载Excel</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/layui@2.6.7/dist/layui.js"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form;
+            $("#exportButton").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Export", "ExcelData")',
+                    type: 'GET',
+                    success: function (data) {
+                         $("#resultDiv").html(data);
+                         $("#downloadLinkAnchor").attr("href", data);
+                         $("#downloadLink").show();
+                    },
+                    error: function () {
+                        layer.msg('导出数据出错.');
+                    }
+                });
+            });
+
+            $("#exportToExcelLocalButton").click(function () {
+                $.ajax({
+                    url: '@Url.Action("ExportToExcelLocal", "ExcelData")',
+                    type: 'GET',
+                    success: function (data) {
+                        $("#resultDiv").html(data);
+                        $("#downloadLink").hide();
+                    },
+                    error: function () {
+                        layer.msg('导出Excel数据出错');
+                    }
+                });
+            });
+
+            $("#exportToExcelButton").click(function () {
+                $.ajax({
+                    url: '@Url.Action("ExportToExcel", "ExcelData")',
+                    type: 'GET',
+                    xhrFields: {
+                        responseType: 'blob' //将响应类型指定为二进制 blob
+                    },
+                    success: function (data, status, xhr) {
+                        // 创建Blob对象并触发下载
+                        var blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = '复杂报表.xlsx';
+                        link.click();
+                    },
+                    error: function () {
+                        layer.msg('导出Excel出错.');
+                    }
+                });
+            });
+
+            $("#exportToExcelLinkButton").click(function () {
+                window.location.href = '@Url.Action("ExportToExcel", "ExcelData")';
+            });
+          
+        });
+    </script>
+</body>
+</html>

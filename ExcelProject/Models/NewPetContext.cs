@@ -110,7 +110,6 @@ namespace ExcelProject.Models
            .WithMany(e => e.tFoundPets)
            .OnDelete(DeleteBehavior.ClientCascade);
 
-
             modelBuilder
       .Entity<tFoundPet>()
       .HasOne(e => e.tRegion)
@@ -135,7 +134,6 @@ namespace ExcelProject.Models
 .WithMany(e => e.tOrders)
 .OnDelete(DeleteBehavior.ClientCascade);
 
-
             modelBuilder
 .Entity<tPetMember>()
 .HasOne(e => e.tMember)
@@ -148,14 +146,11 @@ namespace ExcelProject.Models
             .WithMany(e => e.tPetMembers)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-
             modelBuilder
            .Entity<tPetMember>()
            .HasOne(e => e.tRegion)
            .WithMany(e => e.tPetMembers)
            .OnDelete(DeleteBehavior.ClientCascade);
-
-
 
             modelBuilder
           .Entity<tComment>()
@@ -163,13 +158,11 @@ namespace ExcelProject.Models
           .WithMany(e => e.tComments)
           .OnDelete(DeleteBehavior.ClientCascade);
 
-
             modelBuilder
           .Entity<tComment>()
           .HasOne(e => e.tMember)
           .WithMany(e => e.tComments)
           .OnDelete(DeleteBehavior.ClientCascade);
-
 
             modelBuilder
    .Entity<tFavorite>()
@@ -182,8 +175,6 @@ namespace ExcelProject.Models
       .HasOne(e => e.tMember)
       .WithMany(e => e.tFavorites)
       .OnDelete(DeleteBehavior.ClientCascade);
-
-
 
             modelBuilder
       .Entity<tLike>()
