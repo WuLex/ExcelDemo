@@ -119,9 +119,14 @@ using ExcelTest.Models;
 #endregion
 
 #region 示例三
-ComplexDataHelper.ExportData();
+//ComplexDataHelper.ExportData();
 #endregion
 
 #region 示例四
 //MergeHelper.ExportData();
+#endregion
+
+
+#region 示例五:EXCEL转html的table代码
+ExcelToHtmlHepler.ExportTableCode();
 #endregion
