@@ -23,6 +23,8 @@ namespace ExcelTest.Common
             using (ExcelPackage package = new ExcelPackage(excelFile))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                var mergeCell = new HashSet<int>();
+
                 string html = "<!DOCTYPE html><html><head><title>Excel to HTML</title></head><body><table border=\"1\">";
 
                 // 循环遍历所有行
@@ -40,8 +42,15 @@ namespace ExcelTest.Common
                         int colspan = 1;
                         if (cell.Merge)
                         {
-                            rowspan = cell.Start.Row - cell.End.Row + 1;
-                            colspan = cell.Start.Column - cell.End.Column + 1;
+                            //获取工作簿中所有 MergeCell 索引号
+                            var id = worksheet.GetMergeCellId(row, col);
+                            //如果根据MergeCell添加过td标签，就直接跳过
+                            if (mergeCell.Contains(id)) continue;
+                            mergeCell.Add(id);
+
+                            //获取单元格合并的行数和列数
+                            rowspan = worksheet.Cells[worksheet.MergedCells[id - 1]].Rows;
+                            colspan = worksheet.Cells[worksheet.MergedCells[id - 1]].Columns;
                         }
 
                         // 添加单元格内容到HTML
