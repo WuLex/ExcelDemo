@@ -16,3 +16,8 @@
 ### Console示例:
 
 ![image](https://raw.githubusercontent.com/WuLex/UsefulPicture/main/excelexportimgs/testexcel.png)
+
+------------------------------------------------
+#### excel to html:
+![image](https://raw.githubusercontent.com/WuLex/UsefulPicture/main/excelexportimgs/exceltohtml.jpg)
+
